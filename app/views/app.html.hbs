@@ -136,6 +136,10 @@
       this.active = hashName;
     };
     
+    window.onhashchange = function(e) {
+      Krut40.route(location.hash);
+    };
+    
     $(function(){
       Krut40 = new Krut40($);
       // wire it up
@@ -196,7 +200,7 @@
         
       });
       $('#hud-form').submit(function(e){
-        console.log('here');
+        //console.log('here');
         var $text   = $('#hud-msg-text'),
             text    = $text.val(),
             $notice = $('#hud-sending-notice');
@@ -211,7 +215,7 @@
           var $html = $(result.html);
           $('#messages_panel').prepend($html.hide());
           $html.fadeIn();
-          console.log(result);
+          //console.log(result);
         });
       });
     });

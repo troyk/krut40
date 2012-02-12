@@ -13,7 +13,7 @@ function genMailKey(msg) {
     
 mailer.SMTP = db.SMTP;    
     
-var msgInvite = {
+sendMessage({
   sender: db.SMTP.user,
   subject: "You're invited to Krut's 40th Birthday Party!",
   template: "<h2>Let's Party!</h2> \
@@ -27,22 +27,30 @@ var msgInvite = {
         <br/>\
         <br/>\
         --thx-- Troy"
-};
-
-
-Object.keys(people).forEach(function(key){
-  var person = people[key],
-      msg    = msgInvite;
-  msg.to = person.email;
-  if (typeof msg.template === 'string') msg.html = msg.template.replace(/\{\{cacheKey\}\}/g,key);
-  //if (typeof msg.body === 'string') msg.body = msg.body.replace(/\{\{cacheKey\}\}/g,key);
-  //var mailKey = genMailKey(msg);
-  //if (db.SMTP.mailer_cache.indexOf(mailKey) >= 0) return;
-  console.log(msg.to + ': queued');
-  mailer.send_mail(msg,function(err,success){
-    console.log(msg.to + ': ', success);
-    if (err) console.log('ERROR:',err);
-  });
 });
 
-console.log('done!');
+function sendMessage(message) {
+  Object.keys(people).forEach(function(key){
+    var person = people[key],
+        msg    = {
+          sender: message.sender,
+          subject: message.subject,
+          html: message.template.replace(/\{\{cacheKey\}\}/g,key),
+          to: person.email
+        };
+    if (!person.email) {
+      console.log('NO EMAIL FOR:', person.name);
+      return;
+    }
+    //if (typeof msg.body === 'string') msg.body = msg.body.replace(/\{\{cacheKey\}\}/g,key);
+    //var mailKey = genMailKey(msg);
+    //if (db.SMTP.mailer_cache.indexOf(mailKey) >= 0) return;
+    console.log(msg.to + ': queued');
+    mailer.send_mail(msg,function(err,success){
+      console.log('RESULT: ', err||success);
+    });
+  });
+  console.log('done!');
+}
+
+
