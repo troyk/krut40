@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+var repl    = require('repl'),
+    context = repl.start("krut40> ",null,null,true).context,
+    app     = require('../config/application');
+    
+// setup repl context
+context.c = function () {
+  var l = arguments.length,
+      message = 'Callback called with ' + l +
+          ' argument' + (l === 1 ? '' : 's') + (l > 0 ? ':\n' : '');
+
+  for (var i = 0; i < 10; i++) {
+      if (i < arguments.length) {
+          context['_' + i] = arguments[i];
+          message += '_' + i + ' = ' + arguments[i] + '\n';
+      } else {
+          if (context.hasOwnProperty('_' + i)) {
+              delete context['_' + i];
+          }
+      }
+  }
+  console.log(message);
+};
+
+context.exit = function () {
+    process.exit(0);
+};
+
+context.app = app;
+context.db = app.db;
+
+//context.User = require('../app/models/user');
+//context.Order = require('../app/models/order');
+//context.Message = require('../app/models/message');

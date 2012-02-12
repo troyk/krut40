@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Krazy Krut's Turning 40!!</title>
+  <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  
+  <link rel="shortcut icon" href="/favicon.jpeg">
+  <link rel="stylesheet" href="/style.css?t=1" type="text/css" />
+</head>
+<body>
+  <div id="sidebar">
+    <img src="/krut40.png"/>
+    {{#if parties}}
+    <h2 style="text-align:center; color:#b4a695; width:210px">
+      March 23rd-24th
+      Sonoma, CA
+    </h2>
+    {{/if}}
+  </div>
+  <div id="bodywrapper">
+    {{#if parties}}
+      <ul id="krutmnu" class="nav nav-pills">
+        <li class="active"><a href="#messages">Messages</a></li>
+        <li><a href="#people">People</a></li>
+        <li><a href="#enchilada">Das Enchilada</a></li>
+      </ul>
+      <div id="hud">
+        <form id="hud-form">
+          <strong style="color:#b4a695; padding-right:10px;">Hi {{person.name}}!</strong>
+          {{#coming_checkboxes person}}{{/coming_checkboxes}}
+          <div id="hud-msg-wrapper">
+            <textarea id="hud-msg-text" name="message" rows="1" placeholder="Type here to enter a message"></textarea>
+            <p id="hud-msg-cmds">
+              <span id="hud-sending-notice" class="label label-info" style="display:none">sending...</span>
+              <a href="#" id="hud-msg-cancel" class="btn btn-small">Cancel</a>
+              <button type="submit" class="btn btn-small btn-primary">Send</button>
+            </p>
+          </div>
+        </form>
+      </div>
+      <div id="body">
+        <div id="messages_panel" style="display:block">
+          {{#messages}}
+            {{#render_message .}}{{/render_message}}
+          {{/messages}}
+        </div>
+
+        <div id="people_panel" style="display:none">
+          {{#parties}}
+            <div class="row party">
+              <h3>{{name}}</h3>
+              {{#people}}
+                <div class="well person">
+                  {{name}}
+                  {{#coming_nibs user=../../person}}{{/coming_nibs}}
+                </div>
+              {{/people}}
+            </div>
+          {{/parties}}
+        </div>
+
+        <div id="enchilada_panel" style="display:none">
+          <h2>A House, A Hotel and a Rib Cookoff!</h2>
+          We've rented a house that sleeps 18 for Friday and Saturday nights and hotel rooms at the Fairmont 
+          (just down the street) for Saturday night only.  The lodging is on us, you just need to show up ready to party!  Feel free 
+          to bring your bikes or run off for a bit and visit your favorite vino maker.
+          <h3>The House</h3>
+           <a href="http://moonmountainsonoma.com/" target="_blank">Moon Mountain Retreat</a>.  Click the link for directions, etc.  Please don't call 
+           them as they have extra fee's for events, noise restrictions, etc and I'd like to stay under the radar and get away with as 
+           much as we can.  Check-in is at 3:00pm Friday, checkout 1:00pm Sunday.  It's BYOB.  Bring snacks, or feel free to cook up some grub, 18-20 
+           people sharing a kitchen could be a pilot for a food network show, so I'm not sure if I'm going to cook up some Chorizzo 
+           &amp; eggs for breakfast or grab a bite en route to a wine tasting.  You all know I hate to plan, and the only thing worse 
+           than a plan is having to stick to one! 
+
+          <h3>The Hotel</h3>
+          It's the Fairmont, and it <a href="http://www.fairmont.com/sonoma" target="_blank">looks very cool!</a>.  The room is on us 
+          Saturday night, but your welcome to extend your reservation for as long as you like.  You are also more than welcome to 
+          come to the Friday night dinner, just check the box at the top of the screen.  If we blow past their limit of 20 people, 
+          they'll just have to deal with it, which I'm sure won't be too much trouble for them unless your money isn't green!
+          
+          <h3>Friday Night Dinner</h3>
+          If your coming up friday night, join us for dinner!  7:00pm at the <a href="http://www.sonomameritage.com" target="_blank">Sonoma 
+          Meritage Martini Oyster Bar &amp; Grille</a>.  We booked their max group reservation size without requiring a pre-set limited 
+          menu, so you can order to your hearts desire!  They only accept a single credit card for payment, so check out the menu and bring 
+          cash to settle up with me afterwards.  Melissa and I plan to enjoy the sunset at the house and then head down the hill for 
+          dinner, so if you get into town soon enough, head to the house.
+
+          <h3>Rib Cookoff</h3>
+          The main event is about meat and your ability or lack thereof to please the eyes and taste buds with the succulent meat that 
+          most Arabs only sinfully dream about.  You'll get a rack of baby back ribs, access to a smoker and a wood fired grill.  You can 
+          also use the kitchen if you clean up after yourself, but don't count on it as there will be lots of ribs and only a single 
+          undersized kitchen.  You need to bring your own seasonings and sauces.  <code>Prizes will be 
+          awarded, bragging rights assigned, so bring your A-Game.</code>
+          <h3>Mentionables</h3>
+          Only 10 cars are allowed at the house, so any carpooling is appreciated.  We're thinking of a group wine tasting/tour Saturday before 
+          the rib cookoff.  This little site I made has messaging, linked to your email and that's how we will differentiate ourselves from 
+          primates. 
+        </div>
+      </div>
+    {{else}}
+      <div id="body" class="login">
+        <p>Enter your email address to reveal the <span class="label info">AWESOMENESS</span> -- use the same address as the email invite, if it doesn't 
+        recognize you, call/txt Troy.</p>
+        <div class="alert alert-error whoru" style="display:none">
+          <strong>Oh snap!</strong> I'm not sure I know you, how about using the same email address the invite was sent to or 
+          give Troy a call.
+        </div>
+        <form id="login-form" method="POST" action="/login" style="margin:5px 0px">
+          <input name="email" style="width:96%" placeholder="Your email address"/>
+          <button type="submit" class="btn">Be Awesome!</button>
+        </form>
+        
+        
+      </div>
+    {{/if}}
+        
+  </div>
+  <script language="javascript">
+    // controller
+    var Krut40 = function($) {
+      this.active = 'messages'; // default panel
+      this.panels = $('#body').children();
+      this.navPills = $('#krutmnu').children();
+      this.route(window.location.hash);
+    };
+    Krut40.prototype.route = function(hash) {
+      var hashName  = String(hash).substring(1).toLowerCase() || this.active;
+      if (hashName === this.active) return;
+      this.navPills.toggleClass('active',false).find('a[href="#'+hashName+'"]').parent().toggleClass('active',true);
+      this.panels.hide().filter('#'+hashName+'_panel').show();
+      this.active = hashName;
+    };
+    
+    $(function(){
+      Krut40 = new Krut40($);
+      // wire it up
+      $('#login-form').submit(function(e){
+        e.preventDefault(); 
+        $.post('/login',$(this).serialize(),function(result){
+          if (result && result.pid) return(window.location.reload());
+          $('div.whoru').show();
+        });
+      });
+      $('#krutmnu a').click(function(e){ Krut40.route($(this).attr('href')) });
+      $('#hud-msg-wrapper').bind('toggle',function(e,show){
+        var $this = $(this),
+            $cmds = $('msg-form-cmds');
+        
+      });
+      $('#hud').click(function(e){
+        var $this    = $(this),
+            $target  = $(e.target),
+            targetId = $target.attr('id');
+        if (/^cb-.*[coming|dinner|ribs]$/.test(targetId)) {
+          $('#'+targetId.replace(/^cb-/,'nib-')).parent('a').trigger('click'); // propogate to nib
+        } else if (targetId === 'hud-msg-text') {
+          $('#hud-msg-wrapper').toggleClass('active',true);
+        } else if (targetId === 'hud-msg-cancel') {
+          $('#hud-msg-wrapper').toggleClass('active',false);
+          e.preventDefault();
+        }
+      });
+      $('#people_panel').find('a.nib').click(function(e){
+        e.preventDefault();
+        var $this  = $(this),
+            value  = $this.attr('href').replace(/^#/,''),
+            active = $this.hasClass('active'),
+            nibId  = $this.find('span.code').attr('id'),
+            $hudCb = $('#'+nibId.replace(/^nib-/,'cb-'));
+        if (active) {
+          if (value === 'coming') {
+            $this.siblings().toggleClass('active',false).find('span.coming').toggleClass('coming',false); 
+            $hudCb.closest('form').find('input[name="coming"]').prop('checked',false); //sync hud
+          }
+          $this.toggleClass('active',false).find('span.coming').toggleClass('coming',false); 
+          $hudCb.prop('checked',false);
+        } else {
+          if (value !== 'coming') {
+            $this.siblings('a[href="#coming"]').toggleClass('active',true);
+            $hudCb.closest('form').find('input[value="coming"]').prop('checked',true); //sync hud
+          }
+          $this.toggleClass('active',true);
+          $hudCb.prop('checked',true);
+        }
+        $.post(
+           '/coming',
+           {coming:$this.parent().find('a.nib.active').map(function(){
+             return $(this).attr('href').replace(/^#/,'');
+            }).get()}
+        );
+        
+      });
+      $('#hud-form').submit(function(e){
+        console.log('here');
+        var $text   = $('#hud-msg-text'),
+            text    = $text.val(),
+            $notice = $('#hud-sending-notice');
+        e.preventDefault();
+        if (text.replace(/\s/g,'') === '') return;
+        $notice.show();
+        $.post('/message',{message:text},function(result){
+          $notice.hide();
+          $text.val('');
+          $('#hud-msg-cancel').trigger('click');
+          Krut40.route('#messages');
+          var $html = $(result.html);
+          $('#messages_panel').prepend($html.hide());
+          $html.fadeIn();
+          console.log(result);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

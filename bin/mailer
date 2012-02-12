@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+var app     = require('../config/application'),
+    mailer  = require('nodemailer'),
+    crypto  = require('crypto'),
+    db      = app.db,
+    people  = db.personCache;
+
+// used to prevent dupe messages
+function genMailKey(msg) {
+  return crypto.createHash('md5').update(msg.to+msg.html+msg.body).digest("hex");
+}
+    
+mailer.SMTP = db.SMTP;    
+    
+var msgInvite = {
+  sender: db.SMTP.user,
+  subject: "You're invited to Krut's 40th Birthday Party!",
+  template: "<h2>Let's Party!</h2> \
+        <p>As proof that senility begins at 40, I made a custom <a href=\"http://krut40.blit.com/invite/{{cacheKey}}\">birthday site</a> \
+        in lieu of using a modern facebook/twitter love'n evite system.  It has \
+        all the details but the spoiler is we rented a cool place in Sonoma March 23rd and 24th, that's a Friday and Saturday for the \
+        calendary challenged.</p> \
+        <p>Please visit the site and click your name to let me know if your coming in time for dinner Friday night and if you want to compete \
+        in the rib cookoff on Saturday.  The site might have some bugs, you can increase your chances of it working at all by not using \
+        internet explorer (save a kitten and use FireFox or Chrome).</p> \
+        <br/>\
+        <br/>\
+        --thx-- Troy"
+};
+
+
+Object.keys(people).forEach(function(key){
+  var person = people[key],
+      msg    = msgInvite;
+  msg.to = person.email;
+  if (typeof msg.template === 'string') msg.html = msg.template.replace(/\{\{cacheKey\}\}/g,key);
+  //if (typeof msg.body === 'string') msg.body = msg.body.replace(/\{\{cacheKey\}\}/g,key);
+  //var mailKey = genMailKey(msg);
+  //if (db.SMTP.mailer_cache.indexOf(mailKey) >= 0) return;
+  console.log(msg.to + ': queued');
+  mailer.send_mail(msg,function(err,success){
+    console.log(msg.to + ': ', success);
+    if (err) console.log('ERROR:',err);
+  });
+});
+
+console.log('done!');

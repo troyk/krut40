@@ -1,0 +1,5 @@
+.DS_Store*
+node_modules/**/out
+node_modules/**/build
+*.{node,a,o,dylib}
+db/data.json

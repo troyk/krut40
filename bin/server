@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+var app          = require('../config/application'),
+    appListensTo = 3005;
+
+if (app.settings.env === 'production') {
+  // use a unix sock in production with nginx, but the server needs to be configured
+  // to run as same user as node.js process, so for now we have to make the socket
+  // world readable, hence the call to chmod
+  appListensTo = '/tmp/' + process.title + '.sock';
+  app.listen(appListensTo);
+  require('fs').chmod(appListensTo,'777');
+} else app.listen(appListensTo);
+console.log('Express started on port '+appListensTo);

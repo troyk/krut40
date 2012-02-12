@@ -1,0 +1,12 @@
+{
+    "name": "krut40"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "moment": "1.4.0"
+    , "nodemailer": "0.3.1"
+    , "connect": "git://github.com/senchalabs/connect.git"
+    , "express": "git://github.com/visionmedia/express.git" 
+    , "handlebars": ">= 1.0"
+  }
+}
